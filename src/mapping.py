@@ -6,11 +6,8 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
 # Load the CSV file
-<<<<<<< Updated upstream
-file_path = 'sensor/5500_sensor_data_4.0.csv'
-=======
-file_path = 'src/5500_sensor_data.csv'
->>>>>>> Stashed changes
+file_path = 'src/5500.0_sensor_data.csv'
+
 data = pd.read_csv(file_path)
 
 # # Filter out rows where '|Diff|' is greater than 500
