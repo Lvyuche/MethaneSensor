@@ -1,0 +1,47 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Load data from CSV
+data = pd.read_csv('./meta_data/1_1.csv')
+
+# Initialize a list to store average slopes
+average_slopes = []
+associated_ao_real = []
+
+# Calculate the average slope for each 100 rows and associate with AO_Real
+chunk_size = 100
+for start in range(0, len(data), chunk_size):
+    end = start + chunk_size
+    if end > len(data):
+        break  # Break if the remaining data is less than 100 rows
+    
+    # Current chunk of AO
+    chunk_ao = data['AO'][start:end]
+    # Slopes between consecutive points
+    slopes = (chunk_ao.diff() / 1)[1:]  # /1 for change in x which is 1 index unit
+    average_slope = slopes.mean()
+    
+    # Store the average slope and associated AO_Real value
+    average_slopes.append(average_slope)
+    associated_ao_real.append(data['AO_Real'][end - 1])  # Get AO_Real at the end of the chunk
+
+# Creating a DataFrame to hold the results
+results = pd.DataFrame({
+    'Average Slope': average_slopes,
+    'Associated AO_Real': associated_ao_real
+})
+
+# Plotting results
+plt.figure(figsize=(10, 5))
+# plt.scatter(results['Average Slope'], results['Associated AO_Real'], c='blue', marker='o')
+# plt.title('Average Slope of AO vs. Associated AO_Real')
+# plt.xlabel('Average Slope of AO')
+# plt.ylabel('Associated AO_Real Value')
+plt.plot(results['Average Slope'], label='Average Slope of AO', marker='o')
+plt.plot(results['Associated AO_Real'], label='AO_Real', marker='x')
+plt.grid(True)
+plt.show()
+
+# Optionally, you can save or view the results DataFrame
+print(results.head())  # Display the first few rows of the results

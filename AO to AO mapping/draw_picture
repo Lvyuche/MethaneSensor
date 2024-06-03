@@ -1,0 +1,30 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load data from CSV
+data = pd.read_csv('./meta_data/5_1.csv')
+
+# Create a time series starting from an arbitrary start time, spaced by 50 ms
+# Assuming the data starts at '2023-01-01 00:00:00' for example
+time_index = pd.date_range(start='00:00:00', periods=len(data), freq='50L')
+data.index = time_index
+
+# Plotting
+plt.figure(figsize=(10, 5))
+
+# Plotting both columns
+plt.plot(data.index, data['AO'], label='AO', marker='o')
+plt.plot(data.index, data['AO_Real'], label='AO_Real', marker='x')
+
+# Adding titles and labels
+plt.title('Analog Output Comparison')
+plt.xlabel('Time')
+plt.ylabel('Output Value')
+plt.legend()
+
+# Formatting the x-axis to show the time more clearly
+plt.gcf().autofmt_xdate() # Auto formats the x-axis labels for better readability
+plt.grid(True)
+
+# Show the plot
+plt.show()
